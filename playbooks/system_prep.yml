@@ -2,4 +2,4 @@
   hosts: all
   become: true
   roles:
-    - setup_prep
+    - system_prep

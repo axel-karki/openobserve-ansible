@@ -51,6 +51,13 @@
       - docker-compose-plugin
     state: present
 
+- name: Add current user to docker group (optional)
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  when: ansible_user != "root"
+
 - name: Ensure Docker service is started and enabled
   ansible.builtin.service:
     name: docker
