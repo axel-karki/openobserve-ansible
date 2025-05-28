@@ -1,0 +1,36 @@
+- name: Ensure system is Debian
+  fail:
+    msg: "Only Debian is supported."
+  when: ansible_distribution != "Debian"
+
+- name: Update and upgrade the system
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install required packages
+  apt:
+    name:
+      - curl
+      - locales
+      - tzdata
+      - ca-certificates
+      - gnupg
+      - lsb-release
+    state: present
+
+- name: Ensure en_US.UTF-8 locale is present
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set system-wide default locale
+  lineinfile:
+    path: /etc/default/locale
+    regexp: '^LANG='
+    line: 'LANG=en_US.UTF-8'
+    create: yes
+
+- name: Set system timezone to UTC
+  timezone:
+    name: UTC

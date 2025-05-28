@@ -1,0 +1,5 @@
+- name: System Setup
+  hosts: all
+  become: true
+  roles:
+    - setup_prep

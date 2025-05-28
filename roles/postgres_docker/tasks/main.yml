@@ -1,0 +1,25 @@
+- name: Pull PostgreSQL image
+  docker_image:
+    name: postgres
+    tag: "17"
+    source: pull
+
+- name: Create volume for PostgreSQL
+  docker_volume:
+    name: postgres_data
+
+- name: Run PostgreSQL container
+  docker_container:
+    name: postgres
+    image: postgres:17
+    restart_policy: unless-stopped
+    ports:
+      - "5432:5432"
+    env:
+      POSTGRES_USER: "{{postgres_user}}"
+      POSTGRES_PASSWORD: "{{postgres_password}}"
+      POSTGRES_DB: "{{postgres_db}}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - openobserve_network

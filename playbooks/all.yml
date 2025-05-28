@@ -1,0 +1,23 @@
+- name: System Setup
+  hosts: all
+  become: true
+  roles:
+    - setup_prep
+
+- name: Install Docker
+  hosts: all
+  become: true
+  roles:
+    - docker_install
+
+- name: Install and configure postgres
+  hosts: all
+  become: true
+  roles:
+    - postgres_docker
+
+- name: Install and configure openobserve
+  hosts: all
+  become: true
+  roles:
+    - openobserve_docker

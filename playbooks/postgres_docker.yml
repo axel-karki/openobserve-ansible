@@ -1,0 +1,5 @@
+- name: Install and configure postgres
+  hosts: all
+  become: true
+  roles:
+    - postgres_docker
