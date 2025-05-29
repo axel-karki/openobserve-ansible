@@ -1,3 +1,4 @@
+container_name: postgres
 postgres_user: openobserve
 postgres_password: SecurePassword@123
 postgres_db: openobserve

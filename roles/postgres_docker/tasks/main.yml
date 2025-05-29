@@ -14,7 +14,7 @@
 
 - name: Run PostgreSQL container
   docker_container:
-    name: postgres
+    name: "{{ container_name }}"
     image: postgres:17
     restart_policy: unless-stopped
     ports:
@@ -90,7 +90,7 @@
       export PATH="$HOME/.local/bin:$PATH"
       BACKUP_DIR=$HOME/backups/postgres
       TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-      CONTAINER_NAME=postgres
+      CONTAINER_NAME="{{ container_name }}"
       DB_USER="{{ postgres_user }}"
       DB_NAME="{{ postgres_db }}"
       BACKUP_FILE=${DB_NAME}_backup_${TIMESTAMP}.sql.gz
