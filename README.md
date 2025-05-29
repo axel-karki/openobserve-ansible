@@ -1,4 +1,4 @@
-### OpenObserve Setup Summary
+## OpenObserve Setup Summary
 
 OpenObserve is a log and metrics analysis platform. MinIO is used for data storage and PostgreSQL as the metadata store. PostgreSQL backups are created with `pg_dump` and saved to `MinIO` for safekeeping as cron jobs.
 
@@ -14,7 +14,7 @@ ansible_ssh_private_key_file=<path/of/generated/priv_key>
 
 ---
 
-### Playbook Execution
+## Playbook Execution
 
 Run all plays at once:
 
@@ -30,6 +30,8 @@ Or run sequentially:
 4. `playbooks/openobserve_docker.yml`: runs role `openobserve_docker`
 5. `playbooks/beszel_agent.yml`: runs role `beszel_agent`
 
+---
+## Configuration
 
 ### `roles/system_prep`
 
