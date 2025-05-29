@@ -40,7 +40,7 @@
 - name: Create 'dev' user
   user:
     name: dev
-    password: "{{ dev_password }}"
+    password: "{{ dev_password | password_hash('sha512') }}"
     shell: /bin/bash
     create_home: yes
 
