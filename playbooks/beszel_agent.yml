@@ -1,0 +1,7 @@
+- name: Setup Beszel agent
+  hosts: all
+  become: true
+  vars:
+    beszel_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAtNz9vj2a4dh+Bs4D+v6Ov2QXiZIS8TMNlnObYmlaNS"
+  roles:
+    - beszel_docker

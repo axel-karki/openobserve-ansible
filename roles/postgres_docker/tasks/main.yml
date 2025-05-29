@@ -16,10 +16,10 @@
     ports:
       - "5432:5432"
     env:
-      POSTGRES_USER: "{{postgres_user}}"
-      POSTGRES_PASSWORD: "{{postgres_password}}"
-      POSTGRES_DB: "{{postgres_db}}"
+      POSTGRES_USER: "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_password }}"
+      POSTGRES_DB: "{{ postgres_db }}"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - openobserve_network
+      - name: openobserve_network

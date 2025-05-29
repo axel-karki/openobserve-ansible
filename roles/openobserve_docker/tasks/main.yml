@@ -10,19 +10,19 @@
     state: directory
     mode: '0755'
 
-- name: Create logrotate configuration
-  copy:
-    dest: /etc/logrotate.d/openobserve
-    content: |
-      /var/log/openobserve/*.log {
-        daily
-        rotate 14
-        missingok
-        compress
-        delaycompress
-        notifempty
-        create 0640 root adm
-      }
+#- name: Create logrotate configuration
+#  copy:
+#    dest: /etc/logrotate.d/openobserve
+#    content: |
+#      /var/log/openobserve/*.log {
+#        daily
+#        rotate 14
+#        missingok
+#        compress
+#        delaycompress
+#        notifempty
+#        create 0640 root adm
+#      }
 
 - name: Run OpenObserve container
   docker_container:
@@ -35,7 +35,7 @@
       ZO_ROOT_USER_EMAIL: "{{root_email}}"
       ZO_ROOT_USER_PASSWORD: "{{root_password}}"
       ZO_META_STORE: postgres
-      ZO_POSTGRES_DSN: postgres://openobserve:"{{postgres_password}}"@postgres:5432/openobserve
+      ZO_META_POSTGRES_DSN: postgres://openobserve:SecurePassword@123@postgres:5432/openobserve
       ZO_S3_PROVIDER: minio
       ZO_S3_SERVER_URL: "{{s3_address}}"
       ZO_S3_REGION_NAME: us-east-1
@@ -45,4 +45,4 @@
     volumes:
       - /var/log/openobserve:/var/log/openobserve
     networks:
-      - openobserve_network
+      - name: openobserve_network
