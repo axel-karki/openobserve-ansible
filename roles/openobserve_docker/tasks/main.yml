@@ -36,6 +36,7 @@
       ZO_ROOT_USER_PASSWORD: "{{root_password}}"
       ZO_META_STORE: postgres
       ZO_META_POSTGRES_DSN: postgres://openobserve:SecurePassword@123@postgres:5432/openobserve
+      ZO_LOCAL_MODE_STORAGE: s3
       ZO_S3_PROVIDER: minio
       ZO_S3_SERVER_URL: "{{s3_address}}"
       ZO_S3_REGION_NAME: us-east-1
