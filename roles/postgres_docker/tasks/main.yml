@@ -8,6 +8,10 @@
   docker_volume:
     name: postgres_data
 
+- name: Create network for openobserve and postgres
+  docker_network:
+    name: openobserve_network
+
 - name: Run PostgreSQL container
   docker_container:
     name: postgres

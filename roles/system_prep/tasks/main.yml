@@ -17,6 +17,7 @@
       - ca-certificates
       - gnupg
       - lsb-release
+      - sudo
     state: present
 
 - name: Ensure en_US.UTF-8 locale is present
@@ -34,3 +35,54 @@
 - name: Set system timezone to UTC
   timezone:
     name: UTC
+
+- name: Create 'dev' user
+  user:
+    name: dev
+    password: "{{ dev_password }}"
+    shell: /bin/bash
+    create_home: yes
+
+- name: Add 'dev' user to sudoers
+  user:
+    name: dev
+    groups: sudo
+    append: yes
+
+- name: Disable root shell
+  user:
+    name: root
+    shell: /usr/sbin/nologin
+
+- name: Disable root login in SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin'
+    line: 'PermitRootLogin no'
+    state: present
+
+- name: Change SSH port to 10822
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?Port '
+    line: 'Port 10822'
+    state: present
+
+- name: Disable default SSH port 22
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^Port 22'
+    line: '# Port 22'
+    state: present
+
+- name: Add SSH public key for 'dev'
+  authorized_key:
+    user: dev
+    key: "{{ pub_key }}""
+    state: present
+    manage_dir: yes
+
+- name: Ensure SSH is restarted
+  service:
+    name: ssh
+    state: restarted
