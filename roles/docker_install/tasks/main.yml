@@ -1,6 +1,6 @@
-- name: Update apt package index
-  ansible.builtin.apt:
-    update_cache: yes
+# - name: Update apt package index
+#   ansible.builtin.apt:
+#     update_cache: yes
 
 - name: Create keyrings directory
   ansible.builtin.file:
