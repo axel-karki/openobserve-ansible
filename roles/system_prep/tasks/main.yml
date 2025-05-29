@@ -50,6 +50,12 @@
     groups: sudo
     append: yes
 
+- name: Allow dev user passwordless sudo
+  copy:
+    dest: /etc/sudoers.d/dev
+    content: "dev ALL=(ALL) NOPASSWD:ALL\n"
+    mode: '0440'
+
 - name: Disable root shell
   user:
     name: root

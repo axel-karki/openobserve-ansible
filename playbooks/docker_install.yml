@@ -1,5 +1,5 @@
 - name: Install Docker
   hosts: openobserve-dev
-  become: true
+  become: false
   roles:
     - docker_install

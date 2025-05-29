@@ -9,6 +9,8 @@
     path: /var/log/openobserve
     state: directory
     mode: '0755'
+    owner: dev
+    group: dev
 
 #- name: Create logrotate configuration
 #  copy:
