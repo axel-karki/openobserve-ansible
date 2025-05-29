@@ -1,3 +1,9 @@
 postgres_user: openobserve
 postgres_password: SecurePassword@123
 postgres_db: openobserve
+
+minio_alias: minio
+minio_url: http://10.0.0.18:9000
+minio_access_key: iqoTmkLTWr9WCDE1nMfp
+minio_secret_key: rAgDTjdDYgFTMpfwOudFGbIMM4WqHxQsKsoE0RAX
+minio_bucket: openobserve

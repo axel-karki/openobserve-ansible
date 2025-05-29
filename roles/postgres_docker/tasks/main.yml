@@ -27,3 +27,85 @@
       - postgres_data:/var/lib/postgresql/data
     networks:
       - name: openobserve_network
+
+- name: Create backup directory in dev user's home
+  file:
+    path: /home/dev/backups/postgres
+    state: directory
+    owner: dev
+    group: dev
+    mode: '0755'
+
+- name: Install mc (MinIO client)
+  get_url:
+    url: https://dl.min.io/client/mc/release/linux-amd64/mc
+    dest: /usr/local/bin/mc
+    mode: '0755'
+    owner: dev
+    group: dev
+
+- name: Ensure .local/bin is in PATH for dev user
+  lineinfile:
+    path: /home/dev/.bashrc
+    line: 'export PATH="$HOME/.local/bin:$PATH"'
+    create: yes
+    state: present
+
+- name: Create MinIO config dir for dev
+  file:
+    path: /home/dev/.mc
+    state: directory
+    owner: dev
+    group: dev
+    mode: '0700'
+
+- name: Write MinIO config for dev
+  copy:
+    dest: /home/dev/.mc/config.json
+    content: |
+      {
+        "version": "10",
+        "aliases": {
+          "minio": {
+            "url": "{{ minio_url }}",
+            "accessKey": "{{ minio_access_key }}",
+            "secretKey": "{{ minio_secret_key }}",
+            "api": "S3v4",
+            "lookup": "auto"
+          }
+        }
+      }
+    owner: dev
+    group: dev
+    mode: '0600'
+
+- name: Create PostgreSQL backup + upload script for dev user
+  copy:
+    dest: /home/dev/pg_backup_minio.sh
+    owner: dev
+    group: dev
+    mode: '0755'
+    content: |
+      #!/bin/bash
+      export PATH="$HOME/.local/bin:$PATH"
+      BACKUP_DIR=$HOME/backups/postgres
+      TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+      CONTAINER_NAME=postgres
+      DB_USER="{{ postgres_user }}"
+      DB_NAME="{{ postgres_db }}"
+      BACKUP_FILE=${DB_NAME}_backup_${TIMESTAMP}.sql.gz
+
+      docker exec $CONTAINER_NAME pg_dump -U $DB_USER $DB_NAME | gzip > $BACKUP_DIR/$BACKUP_FILE
+
+      mc alias set {{ minio_alias }} {{ minio_url }} {{ minio_access_key }} {{ minio_secret_key }} --api S3v4
+      mc cp $BACKUP_DIR/$BACKUP_FILE {{ minio_alias }}/{{ minio_bucket }}/
+
+      find $BACKUP_DIR -type f -name "*.sql.gz" -mtime +7 -delete
+
+- name: Add cron job for dev to run backup script daily at 2am
+  cron:
+    name: "PostgreSQL backup + upload to MinIO"
+    user: dev
+    minute: 0
+    hour: 2
+    job: "/home/dev/pg_backup_minio.sh >> /home/dev/pg_backup_minio.log 2>&1"
