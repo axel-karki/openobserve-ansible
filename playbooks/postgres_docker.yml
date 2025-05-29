@@ -1,5 +1,5 @@
 - name: Install and configure postgres
-  hosts: all
+  hosts: openobserve-dev
   become: true
   roles:
     - postgres_docker

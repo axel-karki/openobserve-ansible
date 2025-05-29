@@ -1,5 +1,5 @@
 - name: System Setup
-  hosts: all
+  hosts: openobserve-root
   become: true
   roles:
     - system_prep

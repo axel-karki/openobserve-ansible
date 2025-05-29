@@ -1,29 +1,29 @@
 - name: System Setup
-  hosts: all
+  hosts: openobserve-root
   become: true
   roles:
     - system_prep
 
 - name: Install Docker
-  hosts: all
+  hosts: openobserve-dev
   become: true
   roles:
     - docker_install
 
 - name: Install and configure postgres
-  hosts: all
+  hosts: openobserve-dev
   become: true
   roles:
     - postgres_docker
 
 - name: Install and configure openobserve
-  hosts: all
+  hosts: openobserve-dev
   become: true
   roles:
     - openobserve_docker
 
 - name: Setup Beszel agent
-  hosts: all
+  hosts: openobserve-dev
   become: true
   vars:
     beszel_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAtNz9vj2a4dh+Bs4D+v6Ov2QXiZIS8TMNlnObYmlaNS"

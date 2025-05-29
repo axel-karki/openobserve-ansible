@@ -1,5 +1,5 @@
 - name: Install and configure openobserve
-  hosts: all
+  hosts: openobserve-dev
   become: true
   roles:
     - openobserve_docker
