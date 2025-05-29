@@ -78,7 +78,7 @@
 - name: Add SSH public key for 'dev'
   authorized_key:
     user: dev
-    key: "{{ pub_key }}""
+    key: "{{ pub_key }}"
     state: present
     manage_dir: yes
 
