@@ -18,6 +18,7 @@
       - gnupg
       - lsb-release
       - sudo
+      - ufw
     state: present
 
 - name: Ensure en_US.UTF-8 locale is present
@@ -86,3 +87,29 @@
   service:
     name: ssh
     state: restarted
+
+- name: Install UFW
+  apt:
+    name: ufw
+    state: present
+
+- name: Set default UFW policies
+  ufw:
+    direction: incoming
+    policy: deny
+
+- name: Allow outgoing connections
+  ufw:
+    direction: outgoing
+    policy: allow
+
+- name: Allow SSH on custom port 10822
+  ufw:
+    rule: allow
+    port: '10822'
+    proto: tcp
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny
