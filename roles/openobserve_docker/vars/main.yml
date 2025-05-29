@@ -1,6 +1,8 @@
 root_email: test@mail.com
 root_password: SecurePassword@123
+postgres_user: openobserve
 postgres_password: SecurePassword@123
 s3_address: http://10.0.0.18:9000
 s3_access_key: iqoTmkLTWr9WCDE1nMfp
 s3_secret_key: rAgDTjdDYgFTMpfwOudFGbIMM4WqHxQsKsoE0RAX
+s3_bucket_name: openobserve

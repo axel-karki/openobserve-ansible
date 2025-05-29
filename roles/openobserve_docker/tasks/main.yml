@@ -12,20 +12,6 @@
     owner: dev
     group: dev
 
-#- name: Create logrotate configuration
-#  copy:
-#    dest: /etc/logrotate.d/openobserve
-#    content: |
-#      /var/log/openobserve/*.log {
-#        daily
-#        rotate 14
-#        missingok
-#        compress
-#        delaycompress
-#        notifempty
-#        create 0640 root adm
-#      }
-
 - name: Run OpenObserve container
   docker_container:
     name: openobserve
@@ -37,12 +23,12 @@
       ZO_ROOT_USER_EMAIL: "{{root_email}}"
       ZO_ROOT_USER_PASSWORD: "{{root_password}}"
       ZO_META_STORE: postgres
-      ZO_META_POSTGRES_DSN: postgres://openobserve:SecurePassword@123@postgres:5432/openobserve
+      ZO_META_POSTGRES_DSN: "postgres://{{ postgres_user }}:{{ postgres_password }}@postgres:5432/openobserve"
       ZO_LOCAL_MODE_STORAGE: s3
       ZO_S3_PROVIDER: minio
       ZO_S3_SERVER_URL: "{{s3_address}}"
       ZO_S3_REGION_NAME: us-east-1
-      ZO_S3_BUCKET_NAME: openobserve
+      ZO_S3_BUCKET_NAME: "{{s3_bucket_name}}"
       ZO_S3_ACCESS_KEY: "{{s3_access_key}}"
       ZO_S3_SECRET_KEY: "{{s3_secret_key}}"
     volumes:
